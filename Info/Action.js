@@ -1,4 +1,4 @@
-class Action {
+export class Action {
 
     constructor(name, pos_preconditions, neg_preconditions, addList, deleteList) {
 

@@ -1,4 +1,4 @@
-class State {
+export class State {
 
     constructor(parent, action, pos_literals, neg_literals) {
         this.parent = parent;
