@@ -1,4 +1,4 @@
-export class State {
+class State {
 
     constructor(parent, action, pos_literals, neg_literals) {
         this.parent = parent;
@@ -7,3 +7,5 @@ export class State {
         this.neg_literals = neg_literals;
     }
 }
+
+module.exports = State;

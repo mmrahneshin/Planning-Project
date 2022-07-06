@@ -1,50 +1,51 @@
-import { State } from '../Info/State';
-import { Action } from '../Info/Action';
+const State = require('../Info/State');
+const Action = require('../Info/Action');
 class SpareTire {
 
-    startState = new State(null, null, [["at", "flat", "axle"], ["at", "spare", "trunk"]]);
-    goal = ["at", "spare", "axle"];
+    startState = new State(null, null, ["atflataxle", "atsparetrunk"], []);
+    goal = ["atspareaxle"];
     tires = ["flat", "spare"];
     locations = ["axle", "trunk"];
     actions = [];
 
     constructor() {
-        createActions();
-        console.log(this);
+        this.createActions();
     }
 
     createActions() {
 
-        createRemoveActions();
-        createPutOnActions();
-        createLeaveOverNightsActions();
+        this.createRemoveActions();
+        this.createPutOnActions();
+        this.createLeaveOverNightsActions();
 
     }
 
     createRemoveActions() {
-        for (tire in this.tires) {
-            for (location in this.locations) {
-                actions.append(new Action("Remove"
-                    , [["at", tire, location]], null
-                    , [["at", tire, "Ground"]], [["at", tire, location]]));
+        for (let tire of this.tires) {
+            for (let location of this.locations) {
+                this.actions.push(new Action("Remove"
+                    , ["at" + tire + location], []
+                    , ["at" + tire + "Ground"], ["at" + tire + location]));
             }
         }
     }
 
     createPutOnActions() {
-        for (tire in tires) {
-            actions.append(new Action("PutOn", [["at", tire, "Ground"]]
-                , [["at", "flat", "axle"], ["at", "spare", "axle"]]
-                , [["at", tire, "axle"]], [["at", tire, "Ground"]]));
+        for (let tire of this.tires) {
+            this.actions.push(new Action("PutOn", ["at" + tire + "Ground"]
+                , ["at" + "flat" + "axle", "at" + "spare" + "axle"]
+                , ["at" + tire + "axle"], ["at" + tire + "Ground"]));
         }
     }
 
     createLeaveOverNightsActions() {
-        actions.append(new Action("LeaveOverNight", null, null, null
-            , [["at", "spare", "Ground"], ["at", "spare", "axle"], ["at", "spare", "trunk"]
-                , ["at", "flat", "Ground"], ["at", "flat", "axle"], ["at", "flat", "trunk"]
+        this.actions.push(new Action("LeaveOverNight", [], [], []
+            , ["at" + "spare" + "Ground", "at" + "spare" + "axle", "at" + "spare" + "trunk"
+                , "at" + "flat" + "Ground", "at" + "flat" + "axle", "at" + "flat" + "trunk"
             ]
         ));
     }
 
 }
+
+module.exports = SpareTire;
