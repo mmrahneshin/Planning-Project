@@ -6,23 +6,18 @@ class BlocksWorld {
     block = ["A", "B", "C"];
     blockWithTable = ["A", "B", "C", "Table"];
 
-    startState = new State(null, null, ["OnATable", "OnBTable", "OnCA", "ClearB", "ClearC", "ClearTable"], []);
+    startState = new State(null, null, ["OnATable", "OnBTable", "OnCA", "ClearB", "ClearC"], []);
     goal = ["OnAB", "OnBC"];
     actions = [];
 
 
     constructor() {
-
         this.createActions();
-
     }
 
     createActions() {
-
         this.createMoveAction();
         this.createMoveToTable();
-
-
     }
 
     createMoveAction() {

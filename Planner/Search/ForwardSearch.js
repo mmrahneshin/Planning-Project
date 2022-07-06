@@ -88,6 +88,13 @@ const createNewState = (action, nexTDepthStateList, state) => {
 }
 
 const printSolution = (finalState, stateList) => {
+
+    // stateList.forEach(state => {
+    //     console.log(state.action);
+    //     console.log(state.pos_literals);
+    //     console.log(" ");
+    // });
+
     let state = finalState;
     while (state !== null) {
         console.log(state.action);
