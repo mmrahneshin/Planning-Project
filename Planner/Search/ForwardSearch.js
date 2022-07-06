@@ -80,7 +80,9 @@ const createNewState = (action, nexTDepthStateList, state) => {
     });
 
     action.addList.forEach(element => {
-        literals.push(element);
+        if (!literals.includes(element)) {
+            literals.push(element);
+        }
     });
     nexTDepthStateList.push(new State(state, action, literals, []));
 }
