@@ -10,7 +10,7 @@ const forwardSearch = (domain) => {
     while (!finish) {
         let nexTDepthStateList = [];
         for (let state of stateList) {
-            checkAction(state, nexTDepthStateList, domain.actions);
+            successor(state, nexTDepthStateList, domain.actions);
         }
         stateList = [];
         stateList = nexTDepthStateList;
@@ -37,7 +37,7 @@ const isFinish = (stateList, goal) => {
     });
 }
 
-const checkAction = (state, nexTDepthStateList, actions) => {
+const successor = (state, nexTDepthStateList, actions) => {
     for (let action of actions) {
 
         let bool = true;
