@@ -1,25 +1,35 @@
+const ignoreDeleteLists = require('../Heuristic/IgnoreDeleteLists');
 const State = require('../../Info/State');
 
 let finalState;
 let finish;
+let domain;
 
-const BackwardSearch = (domain) => {
+const forwardSearchWithHDel = (dom) => {
+    domain = dom;
     let stateList = [domain.startState];
     finish = false;
     finalState = null;
-    while (!finish) {
-        let nexTDepthStateList = [];
-        for (let state of stateList) {
-            successor(state, nexTDepthStateList, domain.actions);
-        }
-        stateList = [];
-        stateList = nexTDepthStateList;
-
-        isFinish(stateList, domain.goal);
-
-    }
+    // while (!finish) {
+    let state = minFinder(stateList);
+    successor(state, stateList, domain.actions);
+    isFinish(stateList, domain.goal);
+    // }
 
     printSolution(finalState, stateList);
+}
+
+const minFinder = (stateList) => {
+    let min = Number.MAX_VALUE;
+    let minState = null;
+
+    stateList.forEach((state) => {
+        if (state.Fn < min) {
+            minState = state;
+            min = state.Fn;
+        }
+    });
+    return minState;
 }
 
 const isFinish = (stateList, goal) => {
@@ -42,9 +52,8 @@ const isFinish = (stateList, goal) => {
     });
 }
 
-const successor = (state, nexTDepthStateList, actions) => {
+const successor = (state, stateList, actions) => {
     for (let action of actions) {
-
         let bool = true;
         for (let preCondition of action.pos_preconditions) {
             let posPreconditionBool = state.pos_literals.includes(preCondition);
@@ -72,11 +81,13 @@ const successor = (state, nexTDepthStateList, actions) => {
             continue;
         }
 
-        createNewState(action, nexTDepthStateList, state);
+        createNewState(action, stateList, state);
     }
 }
 
-const createNewState = (action, nexTDepthStateList, state) => {
+const createNewState = (action, stateList, state) => {
+
+
     let literals = [];
     state.pos_literals.forEach(item => {
         if (!action.deleteList.includes(item)) {
@@ -89,7 +100,20 @@ const createNewState = (action, nexTDepthStateList, state) => {
             literals.push(element);
         }
     });
-    nexTDepthStateList.push(new State(state, action, literals, []));
+
+
+    let index = stateList.indexOf(state);
+    if (index > -1) {
+        stateList.splice(index, 1);
+    }
+
+    let newState = new State(state, action, literals, [], state.Gn + 1);
+
+
+    newState.Fn = newState.Gn + ignoreDeleteLists(domain, newState);
+
+    stateList.push(newState);
+
 }
 
 const printSolution = (finalState, stateList) => {
@@ -97,16 +121,17 @@ const printSolution = (finalState, stateList) => {
     // stateList.forEach(state => {
     //     console.log(state.action);
     //     console.log(state.pos_literals);
+    //     console.log(state.Fn);
     //     console.log(" ");
     // });
 
-    let state = finalState;
-    while (state !== null) {
-        console.log(state.action);
-        console.log(state.pos_literals);
-        console.log(" ");
-        state = state.parent;
-    }
+    // let state = finalState;
+    // while (state !== null) {
+    //     console.log(state.action);
+    //     console.log(state.pos_literals);
+    //     console.log(" ");
+    //     state = state.parent;
+    // }
 }
 
-module.exports = BackwardSearch;
+module.exports = forwardSearchWithHDel;
