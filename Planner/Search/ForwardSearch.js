@@ -25,8 +25,13 @@ const forwardSearch = (domain) => {
 const isFinish = (stateList, goal) => {
     stateList.forEach(state => {
         let terminal = true;
-        goal.forEach(element => {
+        goal.pos_literals.forEach(element => {
             if (!state.pos_literals.includes(element)) {
+                terminal = false;
+            }
+        });
+        goal.neg_literals.forEach(element => {
+            if (state.pos_literals.includes(element)) {
                 terminal = false;
             }
         });

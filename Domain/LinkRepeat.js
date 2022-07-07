@@ -6,11 +6,13 @@ class LinkRepeat {
     startState = new State(null, null, [
         "G*", "G0"
     ], []);
-    goal = ["G*"];
+    goal = new State(null, null, [
+        "G*"
+    ], []);;
     actions = [];
 
     constructor(k) {
-        this.goal.push("G" + k);
+        this.goal.pos_literals.push("G" + k);
         this.createActions(k);
     }
 

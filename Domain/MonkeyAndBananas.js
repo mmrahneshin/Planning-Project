@@ -9,7 +9,7 @@ class MonkeyAndBananas {
         "AtMonkeyA", "AtBananasB", "AtBoxC",
         "HeightMonkeyLow", "HeightBoxLow", "HeightBananasHigh",
     ], []);
-    goal = ["HaveMonkeyBananas"];
+    goal = new State(null, null, ["HaveMonkeyBananas"], []);
     actions = [];
 
     constructor() {

@@ -3,7 +3,7 @@ const Action = require('../Info/Action');
 class SpareTire {
 
     startState = new State(null, null, ["atflataxle", "atsparetrunk"], []);
-    goal = ["atspareaxle"];
+    goal = new State(null, null, ["atspareaxle"], []);
     tires = ["flat", "spare"];
     locations = ["axle", "trunk"];
     actions = [];

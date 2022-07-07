@@ -7,7 +7,7 @@ class BlocksWorld {
     blockWithTable = ["A", "B", "C", "Table"];
 
     startState = new State(null, null, ["OnATable", "OnBTable", "OnCA", "ClearB", "ClearC"], []);
-    goal = ["OnAB", "OnBC"];
+    goal = new State(null, null, ["OnAB", "OnBC"], []);
     actions = [];
 
 
